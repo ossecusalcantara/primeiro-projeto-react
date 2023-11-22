@@ -55,6 +55,64 @@ class Api implements IHttpClient<AxiosInstance> {
             }
         }
     }
+
+    async post(data: IDataRequest): Promise<IDataResponse> {
+        try{
+            let resp: AxiosResponse = await this.api.post(data.url, data.data, {
+                headers: data.headers || {}
+            });
+
+            return {
+                data: resp.data,
+                message: resp.data.message || "ok",
+                statusCode: resp.status
+            }
+        } catch (e) {
+            return {
+                data: null,
+                message: "Error",
+                statusCode: 500
+            }
+        }
+    } 
+
+    async put(data: IDataRequest): Promise<IDataResponse> {
+        try {
+            let resp: AxiosResponse = await this.api.put(data.url, data.data, {
+                headers: data.headers
+            });
+
+            return {
+                data: resp.data,
+                message: resp.data.message || "ok",
+                statusCode: resp.status
+            }
+        } catch (e) {
+            return {
+                data: null,
+                message: "Error",
+                statusCode: 500
+            }
+        }
+    }
+
+    async delete(data: IDataRequest): Promise<IDataResponse> {
+      try {
+        let resp: AxiosResponse = await this.api.delete(data.url, data.data);
+
+        return {
+            data: resp.data,
+            message: "ok",
+            statusCode: resp.status
+        }
+      } catch (e) {
+        return {
+            data: null,
+            message: "Error",
+            statusCode: 500
+        }
+      }
+    }
 }
 
 const api = new Api("http://localhost:8080");
